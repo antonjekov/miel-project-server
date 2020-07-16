@@ -1,15 +1,16 @@
 const user = require('./user');
-const home = require('./home');
 const errors = require('./errors');
-const expense = require('./expense');
-const profile = require('./profile');
 const product = require('./product');
+const category = require('./category');
+const subcategory = require('./subcategory');
+const shoppingCart = require('./shoppingCart');
+
 
 module.exports={
     errors,
     user,
-    home,
-    expense,
-    profile,
-    product
+    product,
+    category,
+    subcategory,
+    shoppingCart
 }

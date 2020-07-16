@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { String, Number, Boolean, ObjectId } = mongoose.Schema.Types;
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -15,15 +16,9 @@ const productSchema = new mongoose.Schema({
         max: [100, "Price must be max 100.00 EUR"]       
     },
 
-    category:{
-        type: String,
-        required: [true, "Product category is Required"]
-    },
+    category:{type: ObjectId, ref: "Categories"},
 
-    subcategory:{
-        type: String,
-        required: [true, "Product subcategory is Required"]
-    },
+    subcategory:{type: ObjectId, ref: "Subcategories"},
 
     availability:{
         type: String,

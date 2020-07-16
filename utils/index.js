@@ -1,11 +1,9 @@
 const jwt = require("./jwt");
 const auth = require("./auth");
-const validationErrorRender = require("./validationErrorRender");
-const formatExpenses = require("./formatExpenses");
+const authorized = require("./authorized");
 
 module.exports={
     jwt,
     auth,
-    validationErrorRender,
-    formatExpenses
+    authorized
 }

@@ -1,6 +1,9 @@
 /**@__dirname in a node script returns the path of the folder where the current JavaScript file resides. Here we assign variable @__basedir to global node js object. So we can use easy this variable in all the project how navigation to current project folder. */
 global.__basedir = __dirname;
 
+//dotenv is library for introduce env variables in out project. Look file .env in root directory. File .env must be in gitignore for not be posible people to watch our user and pass for cloud
+require('dotenv').config();
+
 const express = require('express');
 const config = require('./config/config');
 

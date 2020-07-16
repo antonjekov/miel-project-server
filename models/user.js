@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const {
     bcryptSaltRounds
 } = require('../app-config');
+const { String, Number, Boolean, ObjectId } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -26,6 +27,9 @@ const userSchema = new mongoose.Schema({
         maxlength: [13, "Password too long."]       
     },
     
+    role: {type:String, default: "client"},
+
+    shoppingCard: [{ type: ObjectId, ref: "Products" }]
 })
 
 userSchema.methods.matchPassword = function (password) {
