@@ -13,32 +13,36 @@ module.exports = {
                 const allProducts =await productModel.find().lean()
                 res.status(200).json(allProducts);
             } catch (error) {
-                next(error)
+                res.status(500).end()
             }
         },
 
         allWithCatSubcat: async (req,res,next)=>{
-            const category = req.params.category;
-            const subcategory = req.params.subcategory;
-            const categoryInfo = await categoryModel.findOne({"name":category})
-            const subcategoryInfo=await subcategoryModel.findOne({"name":subcategory, "category":categoryInfo._id})
-            const allProducts = await productModel.find({"category":categoryInfo._id,"subcategory":subcategoryInfo._id})
-            res.status(200).json(allProducts);
+            try {
+                const category = req.params.category;
+                const subcategory = req.params.subcategory;
+                const categoryInfo = await categoryModel.findOne({"name":category})
+                const subcategoryInfo=await subcategoryModel.findOne({"name":subcategory, "category":categoryInfo._id})
+                const allProducts = await productModel.find({"category":categoryInfo._id,"subcategory":subcategoryInfo._id})
+                res.status(200).json(allProducts);                
+            } catch (error) {
+                res.status(500).end()
+            }
         },
 
         delete: async (req,res,next)=>{
-            const productId = req.params.id
-            await productModel.findByIdAndDelete(productId);
-            res.status(200).end()
+            try {
+                const productId = req.params.id
+                await productModel.findByIdAndDelete(productId);
+                res.status(200).end()                
+            } catch (error) {
+                res.status(500).end()
+            }
         }
     },
 
     post: {
         add: async (req, res, next) => {
-            if (!req.isAuthorized) {
-                res.status(401).end();
-                return
-            }
             try {
                 const {
                     name,

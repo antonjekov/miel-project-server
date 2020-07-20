@@ -1,13 +1,15 @@
-function authorized() {
-    return async function auth(req, res, next) {
+function authorized(userRole) {
+    return (req, res, next) => {
         if (!req.isLoggedIn) {
-            req.isAuthorized=false;
-            next();
-            return;
+            res.status(401).end()
+            return
         }
-        const {role}=req.user;
-        role==='admin'? req.isAuthorized=true:isAuthorized=false;
-        next();        
+        const role = req.user.role;
+        if (role !== userRole) {
+            res.status(401).end()
+            return
+        }
+        next();
     }
 }
 

@@ -3,12 +3,8 @@ const {userModel} = require('../models');
 module.exports = {
     get: {
         all: async (req, res, next) => {
-            const {user,isLoggedIn}= req
-            if (!isLoggedIn) {
-                res.status(401).end()
-                return
-            }
             try {
+                const {user}= req
                 const userInfo = await userModel.findById(user._id).populate("shoppingCard").lean();
                 res.status(200).json(userInfo.shoppingCard);
             } catch (error) {
@@ -21,13 +17,9 @@ module.exports = {
     post: {
 
         addToShoppingCard: async (req, res, next) => {
-            const {user,isLoggedIn}= req
-            const {productId} = req.body
-            if (!isLoggedIn) {
-                res.status(401).end()
-                return
-            }
             try {
+                const {user}= req
+                const {productId} = req.body
                 const userInfo= await userModel.findByIdAndUpdate(user._id, {
                     $push: {
                         "shoppingCard": productId
@@ -40,13 +32,9 @@ module.exports = {
         },
 
         deleteOneFromShoppingCart: async (req, res, next) => {
-            const {user,isLoggedIn}= req
-            const {productId} = req.body
-            if (!isLoggedIn) {
-                res.status(401).end()
-                return
-            }
             try {
+                const {user}= req
+                const {productId} = req.body
                 await userModel.bulkWrite([{
                         "updateOne": {
                             "filter": {
@@ -84,13 +72,9 @@ module.exports = {
         },
 
         checkoutShoppingCard: async (req, res, next) => {
-            const {user,isLoggedIn}=req
-            if (!isLoggedIn) {
-                res.status(401).end()
-                return
-            }
             try {
-               const userInfo = await userModel.findByIdAndUpdate(user._id, 
+                const {user}=req
+                const userInfo = await userModel.findByIdAndUpdate(user._id, 
                 {
                     $set: {
                         "shoppingCard": []
@@ -106,11 +90,7 @@ module.exports = {
         deleteAllFromShoppingCart: async (req, res, next) => {
             try {
                 const {productId} = req.body
-                const {user,isLoggedIn}=req
-                if (!isLoggedIn) {
-                    res.status(401).end()
-                    return
-                }
+                const {user}=req
                 const userInfo= await userModel.findByIdAndUpdate(user._id, {
                     $pull: {
                         "shoppingCard": productId
