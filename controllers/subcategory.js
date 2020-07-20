@@ -6,22 +6,18 @@ const {
 module.exports = {
     get: {
         all: async (req,res,next)=>{
-            const category = req.params.category;
             try {
+                const category = req.params.category;
                 const allSubcategories =await (await subcategoryModel.find().populate("category"));const searchedSubcategories = allSubcategories.filter(x=>x.category.name===category)
                 res.status(200).json(searchedSubcategories);
             } catch (error) {
-                next(error)
+                res.status(500).end()
             }
         }
     },
 
     post: {
         add: async (req, res, next) => {
-            if (!req.isAuthorized) {
-                res.status(401).end();
-                return
-            }
             try {
                 const {
                     category,

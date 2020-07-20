@@ -1,22 +1,21 @@
 const {
     tokenBlacklist,
-    userModel,
-    categoryModel
+    userModel
 } = require('../models');
 
 const utils = require('../utils');
-const authCookieName = require('../app-config').authCookieName;
+const {authCookieName, authCookieMaxAge} = require('../app-config');
 
 module.exports = {
     get: {
 
         getInfoForUser: async(req,res,next)=>{
-            const {user,isLoggedIn}= req;
-            if (!isLoggedIn) {
-                res.status(204).end()
-                return
-            }
             try {
+                const {user,isLoggedIn}= req;
+                if (!isLoggedIn) {
+                    res.status(204).end()
+                    return
+                }
                 const userInfo = await userModel.findById(user._id);
                 res.status(200).json(userInfo);
             } catch (error) {
@@ -47,7 +46,7 @@ module.exports = {
 
                 const user = await userModel.findOne({
                     username: username
-                }).populate('shoppingCard');
+                });
                 if (!user) {
                     return res.status(401).json({
                         username: 'Wrong username or password!',
@@ -68,7 +67,7 @@ module.exports = {
                 /**When we make a cookie it's important to be with option httpOnly for security reasons. This mean that is not possible you to read it from client side with script.  It's not bad idea if we encript the token ... Here this is not implemented ...*/
                 res.cookie(authCookieName, token, {
                     httpOnly: true,
-                    maxAge: 86400000
+                    maxAge: authCookieMaxAge
                 }).json(user);
             } catch (error) {
                 if (error.name === 'ValidationError') {
@@ -79,7 +78,7 @@ module.exports = {
                     res.status(422).json(errors)
                     return
                 }
-                res.status(422)
+                res.status(500).end()
                 
             }
         },
@@ -121,7 +120,7 @@ module.exports = {
                     res.status(422).json(errors)
                     return
                 }
-                next(error);
+                res.status(500).end()
             }
         },
 
@@ -134,7 +133,7 @@ module.exports = {
                 });
                 res.clearCookie(authCookieName).status(204).end();
             } catch (err) {
-                res.status(500);
+                res.status(500).end();
             }
         },
 

@@ -10,7 +10,7 @@ module.exports = {
                 const allCategories =await categoryModel.find().populate("subcategories")
                 res.status(200).json(allCategories);
             } catch (error) {
-                next(error)
+                res.status(500).end()
             }
         }
     },
@@ -48,7 +48,7 @@ module.exports = {
                     res.status(422).json(errors)
                     return
                 }
-                next(error);
+                res.status(500).end()
             }
         },
 
