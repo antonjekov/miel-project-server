@@ -8,8 +8,19 @@ module.exports = {
         all: async (req,res,next)=>{
             try {
                 const category = req.params.category;
-                const allSubcategories =await (await subcategoryModel.find().populate("category"));const searchedSubcategories = allSubcategories.filter(x=>x.category.name===category)
+                const allSubcategories =await subcategoryModel.find().populate("category");
+                const searchedSubcategories = allSubcategories.filter(x=>x.category.name===category)
                 res.status(200).json(searchedSubcategories);
+            } catch (error) {
+                res.status(500).end()
+            }
+        },
+
+        allProductsInSubcat: async(req,res,next)=>{
+            try {
+                const subcategoryId = req.body.subcategoryId;
+                const subcategory = await subcategoryModel.findById(subcategoryId).populate('products')
+                res.status(200).json(subcategory)                
             } catch (error) {
                 res.status(500).end()
             }

@@ -1,4 +1,5 @@
 const {userModel} = require('../models');
+const utils = require('../utils');
 
 module.exports = {
     get: {
@@ -25,7 +26,8 @@ module.exports = {
                         "shoppingCard": productId
                     }
                 },{new:true})
-                res.status(200).json(userInfo);
+                const userObject = utils.userObjectModifier(userInfo)
+                res.status(200).json(userObject);
             } catch (error) {
                 res.status(500).end()
             }
@@ -63,8 +65,9 @@ module.exports = {
                     }
                 ])
 
-                const userInfo = await userModel.findById(user._id)                
-                res.status(200).json(userInfo);
+                const userInfo = await userModel.findById(user._id)
+                const userObject = utils.userObjectModifier(userInfo)                
+                res.status(200).json(userObject);
 
             } catch (error) {
                 res.status(500).end()
@@ -81,7 +84,8 @@ module.exports = {
                     }
                 },
                 {new: true});
-                res.status(200).json(userInfo);
+                const userObject = utils.userObjectModifier(userInfo)
+                res.status(200).json(userObject);
             } catch (error) {
                 res.status(500).end()
             }
@@ -96,7 +100,8 @@ module.exports = {
                         "shoppingCard": productId
                     }
                 },{new: true})
-                res.status(200).json(userInfo);
+                const userObject = utils.userObjectModifier(userInfo)
+                res.status(200).json(userObject);
             } catch (error) {
                 res.status(500).end()
             }

@@ -8,8 +8,8 @@ module.exports = (app) => {
     app.post('/logout', controlers.user.post.logout);
     app.get('/categories', controlers.category.get.all);
     app.get('/subcategories/:category', controlers.subcategory.get.all);        
-    app.get('/products/:category/:subcategory', controlers.product.get.allWithCatSubcat)
     app.get('/products', controlers.product.get.all);
+    app.post('/subcategory/products', controlers.subcategory.get.allProductsInSubcat)
     
     app.post('/user/getInfoForUser',auth(), controlers.user.get.getInfoForUser);
     

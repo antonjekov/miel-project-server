@@ -4,36 +4,31 @@ const {
 } = require('../models');
 
 const utils = require('../utils');
-const {authCookieName, authCookieMaxAge} = require('../app-config');
+const {
+    authCookieName,
+    authCookieMaxAge
+} = require('../app-config');
 
 module.exports = {
     get: {
 
-        getInfoForUser: async(req,res,next)=>{
+        getInfoForUser: async (req, res, next) => {
             try {
-                const {user,isLoggedIn}= req;
+                const {
+                    user,
+                    isLoggedIn
+                } = req;
                 if (!isLoggedIn) {
                     res.status(204).end()
                     return
                 }
                 const userInfo = await userModel.findById(user._id);
-                res.status(200).json(userInfo);
+                const userObject = utils.userObjectModifier(userInfo)
+                res.status(200).json(userObject);
             } catch (error) {
                 res.status(500).end();
             }
         },
-
-        login: (req, res, next) => {
-            res.render('login.hbs', {
-                pageTitle: 'Login Page'
-            });
-        },
-
-        register: (req, res, next) => {
-            res.render('register.hbs', {
-                pageTitle: 'Logout Page'
-            });
-        }
     },
 
     post: {
@@ -64,11 +59,12 @@ module.exports = {
                 const token = utils.jwt.createToken({
                     userId: user.id
                 });
-                /**When we make a cookie it's important to be with option httpOnly for security reasons. This mean that is not possible you to read it from client side with script.  It's not bad idea if we encript the token ... Here this is not implemented ...*/
+                const userObject = utils.userObjectModifier(user)
+                /**When we make a cookie it's important to be with option httpOnly for security reasons. This mean that is not possible you to read it from client side with script.  It's not bad idea if we encript the token ... Here this is not implemented ...*/                
                 res.cookie(authCookieName, token, {
                     httpOnly: true,
                     maxAge: authCookieMaxAge
-                }).json(user);
+                }).status(200).json(userObject);
             } catch (error) {
                 if (error.name === 'ValidationError') {
                     const errors = Object.entries(error.errors).reduce((acc, curr) => {
@@ -79,7 +75,6 @@ module.exports = {
                     return
                 }
                 res.status(500).end()
-                
             }
         },
 
@@ -106,10 +101,16 @@ module.exports = {
                     password
                 };
                 const createdUser = await userModel.create(newUser);
-                res.status(200).json({
-                    username: createdUser.username,
-                    name: createdUser.name
+                const token = utils.jwt.createToken({
+                    userId: createdUser.id
                 });
+                const userObject = utils.userObjectModifier(createdUser)
+                /**When we make a cookie it's important to be with option httpOnly for security reasons. This mean that is not possible you to read it from client side with script.  It's not bad idea if we encript the token ... Here this is not implemented ...*/
+                
+                res.cookie(authCookieName, token, {
+                    httpOnly: true,
+                    maxAge: authCookieMaxAge
+                }).status(201).json(userObject);
                 return
             } catch (error) {
                 if (error.name === 'ValidationError') {
@@ -137,6 +138,6 @@ module.exports = {
             }
         },
 
-        
+
     }
 }

@@ -17,19 +17,6 @@ module.exports = {
             }
         },
 
-        allWithCatSubcat: async (req,res,next)=>{
-            try {
-                const category = req.params.category;
-                const subcategory = req.params.subcategory;
-                const categoryInfo = await categoryModel.findOne({"name":category})
-                const subcategoryInfo=await subcategoryModel.findOne({"name":subcategory, "category":categoryInfo._id})
-                const allProducts = await productModel.find({"category":categoryInfo._id,"subcategory":subcategoryInfo._id})
-                res.status(200).json(allProducts);                
-            } catch (error) {
-                res.status(500).end()
-            }
-        },
-
         delete: async (req,res,next)=>{
             try {
                 const productId = req.params.id
