@@ -6,7 +6,10 @@ const config = {
         port: process.env.PORT || defaultServerPort,
         dbURL: process.env.DATABASE_URL, 
     },
-    production: {}
+    production: {
+        port: process.env.PORT || defaultServerPort,
+        dbURL: process.env.DATABASE_URL,
+    }
 };
 
 module.exports = config[env];
