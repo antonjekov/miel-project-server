@@ -23,5 +23,7 @@ module.exports = (app) => {
     app.post('/shoppingCart/deleteOne',auth(),authorized('client'), controlers.shoppingCart.post.deleteOneFromShoppingCart);
     app.post('/shoppingCard/get',auth(),authorized('client'), controlers.shoppingCart.get.all);
 
+    app.post('/send-message', controlers.message.post.send);
+
     app.get('*', controlers.errors.get.notFound);
 };
