@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
 
-
 /**@__basedir comes from index.js where we put it like global const. Actualy this is __dirname the directory of our project
  * Because the path to directory is different in different operation sistems is better we to resolve the path with module path with method path.resolve()
  */
@@ -25,4 +24,5 @@ module.exports = (app) => {
         origin: 'http://localhost:3000',
         credentials: true
     }));
+
 };

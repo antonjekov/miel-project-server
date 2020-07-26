@@ -4,6 +4,7 @@ const product = require('./product');
 const category = require('./category');
 const subcategory = require('./subcategory');
 const shoppingCart = require('./shoppingCart');
+const message = require('./message');
 
 
 module.exports={
@@ -12,5 +13,6 @@ module.exports={
     product,
     category,
     subcategory,
-    shoppingCart
+    shoppingCart,
+    message
 }
