@@ -8,12 +8,15 @@ module.exports = (app) => {
     app.post('/logout', controlers.user.post.logout);
     app.get('/categories', controlers.category.get.all);
     app.get('/subcategories/:category', controlers.subcategory.get.all);        
-    app.get('/products', controlers.product.get.all);
+    app.get('/products/:id', controlers.product.get.all);
     app.post('/subcategory/products', controlers.subcategory.get.allProductsInSubcat)
     
     app.post('/user/getInfoForUser',auth(), controlers.user.get.getInfoForUser);
     
     app.post('/add-product',auth(),authorized('admin'), controlers.product.post.add);
+    app.post('/edit-product',auth(),authorized('admin'), controlers.product.post.edit);
+    app.post('/delete-image',auth(),authorized('admin'), controlers.cloudinary.post.delete);
+
     app.post('/add-subcategory',auth(), authorized('admin'), controlers.subcategory.post.add);
     app.get('/products-delete/:id',auth(),authorized('admin'), controlers.product.get.delete);    
     
