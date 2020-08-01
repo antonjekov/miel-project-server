@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const express = require('express');
 const config = require('./config/config');
+const cron = require('node-cron');
+const tokenBlacklistModel = require('./models/token-blacklist')
 
 
 const dbConnector = require('./config/database');
@@ -18,4 +20,9 @@ dbConnector().then(() => {
     require('./routes')(app);
     /**App(our server) start to listen for connections from clients*/
     app.listen(config.port, console.log(`Server listening on port ${config.port}`))
+
+    //clear collection every day at 23.59
+    cron.schedule("59 23 * * *",()=> {
+        tokenBlacklistModel.collection.drop
+    })
 })
