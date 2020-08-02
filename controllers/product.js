@@ -44,6 +44,7 @@ module.exports = {
                     category,
                     subcategory,
                     price,
+                    discount,
                     availability,
                     imageUrl
                 } = req.body;
@@ -62,6 +63,7 @@ module.exports = {
                     category: categoryInfo._id,
                     subcategory: subcategoryInfo._id,
                     price: Number(price),
+                    discount: Number(discount),
                     availability,
                     imageUrl
                 };
@@ -92,10 +94,18 @@ module.exports = {
                     _id,
                     name,
                     price,
+                    discount,
                     availability,
                     imageUrl
                 } = req.body;
-                await productModel.findByIdAndUpdate({_id},{name,price,availability,imageUrl})
+                const productEdits = {
+                    name,
+                    price: Number(price),
+                    discount: Number(discount),
+                    availability,
+                    imageUrl
+                };
+                await productModel.findByIdAndUpdate({_id},{...productEdits})
                 res.status(200).end()
             } catch (error) {
                 res.status(500).end()
