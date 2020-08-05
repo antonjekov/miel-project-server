@@ -32,7 +32,7 @@ module.exports = {
             try {
                 const {
                     category,
-                    subcategory,
+                    name,
                     description,
                     imageUrl
                 } = req.body;
@@ -40,7 +40,7 @@ module.exports = {
                 const categoryInfo = await categoryModel.findOne({"name":category})
 
                 const newSubcategory = {
-                    name: subcategory.toLowerCase(),
+                    name: name.toLowerCase(),
                     category: categoryInfo._id,
                     description,
                     imageUrl
