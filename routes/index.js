@@ -28,5 +28,7 @@ module.exports = (app) => {
 
     app.post('/send-message', controlers.message.post.send);
 
+    app.post('/stripe-payment', controlers.stripe.post.openSession);
+
     app.get('*', controlers.errors.get.notFound);
 };
