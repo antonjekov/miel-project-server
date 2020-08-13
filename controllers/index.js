@@ -6,6 +6,7 @@ const subcategory = require('./subcategory');
 const shoppingCart = require('./shoppingCart');
 const message = require('./message');
 const cloudinary = require('./cloudinary')
+const stripe = require('./stripe')
 
 
 module.exports={
@@ -16,5 +17,6 @@ module.exports={
     subcategory,
     shoppingCart,
     message,
-    cloudinary
+    cloudinary,
+    stripe
 }

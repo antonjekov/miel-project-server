@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: [true, "Price is Required."],
-        min: [0, "Price must be greater or equal to 0.00 EUR"],
+        min: [0.10, "Price must be greater or equal to 0.10 EUR"],
         max: [100, "Price must be max 100.00 EUR"]       
     },
 
@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Discount is Required."],
         min: [0, "Discount must be greater or equal to 0"],
-        max: [100, "Discount must be max 100"]       
+        max: [99, "Discount must be max 99"]       
     },
 
     category:{type: ObjectId, ref: "Categories"},
